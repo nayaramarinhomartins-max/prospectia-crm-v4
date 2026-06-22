@@ -17,8 +17,8 @@ from flask_cors import CORS
 from scraper_maps import run_scraper
 
 # ── Config ────────────────────────────────────────────────
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://wyqnqiowxhamvxtzedth.supabase.co")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5cW5xaW93eGhhbXZ4dHplZHRoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTMxODIyMSwiZXhwIjoyMDg2ODk0MjIxfQ.UPxsabpDa_FK1jUIhpONzWLfkaaz7bYuKBCQMCWmPV0")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 PORT         = int(os.getenv("PORT", 5000))
 
 # ── App ───────────────────────────────────────────────────
