@@ -1,0 +1,126 @@
+<div class="ph">
+  <div class="ph-row">
+    <div><h1>Leads & CRM</h1><p>Gerencie todos os seus contatos e oportunidades.</p></div>
+    <div class="flex gap-8">
+      <button class="btn btn-secondary btn-sm" onclick="abrirImportModal()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Importar planilha
+      </button>
+      <button class="btn btn-secondary btn-sm" onclick="exportarLeads()">Exportar CSV</button>
+      <button class="btn btn-primary btn-sm" onclick="abrirNovoLead()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Novo lead
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="srch">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input class="srch-inp" id="leadSearch" placeholder="Buscar por nome, telefone, cidade..." oninput="filterLeads()">
+  </div>
+  <select class="filt" id="fStatus" onchange="filterLeads()">
+    <option value="">Todos os status</option>
+    <option value="Lead">Lead</option>
+    <option value="Contato Feito">Contato Feito</option>
+    <option value="Interesse">Interesse</option>
+    <option value="Proposta">Proposta</option>
+    <option value="Fechado">Fechado</option>
+    <option value="Perdido">Perdido</option>
+  </select>
+  <select class="filt" id="fScore" onchange="filterLeads()">
+    <option value="">Todos os scores</option>
+    <option value="hot">Quente (70+)</option>
+    <option value="warm">Morno (40-69)</option>
+    <option value="cold">Frio (&lt;40)</option>
+  </select>
+  <span class="text-xs tx-3" id="leadsCount"></span>
+</div>
+
+<div class="card">
+  <div class="tbl-wrap">
+    <table id="leadsTable">
+      <thead><tr>
+        <th>Empresa</th><th>Telefone</th><th>Cidade</th><th>Campanha</th>
+        <th>Score</th><th>Status</th><th>Última interação</th><th style="width:80px"></th>
+      </tr></thead>
+      <tbody id="leadsTbody">
+        <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--tx-3)">Carregando leads...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Editar Lead -->
+<div class="overlay" id="leadModal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <h3 id="leadModalTitle">Detalhes do Lead</h3>
+      <button class="modal-close" onclick="closeLeadModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body" id="leadModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeLeadModal()">Fechar</button>
+      <button class="btn btn-secondary" onclick="goToChat()">Ver conversa</button>
+      <button class="btn btn-primary" onclick="saveLeadModal()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Novo Lead -->
+<div class="overlay" id="newLeadModal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <h3>Novo Lead</h3>
+      <button class="modal-close" onclick="fecharNovoLead()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <form id="newLeadForm">
+        <div class="g2" style="gap:14px">
+          <div class="fg"><label class="lbl">Empresa</label><input class="inp" id="nlEmpresa" placeholder="Nome da empresa"></div>
+          <div class="fg"><label class="lbl">Telefone *</label><input class="inp" id="nlTelefone" placeholder="11999998888" required></div>
+        </div>
+        <div class="g2" style="gap:14px;margin-top:14px">
+          <div class="fg"><label class="lbl">Cidade</label><input class="inp" id="nlCidade" placeholder="São Paulo"></div>
+          <div class="fg"><label class="lbl">Categoria</label><input class="inp" id="nlCategoria" placeholder="Petshop, Restaurante..."></div>
+        </div>
+        <div class="fg" style="margin-top:14px"><label class="lbl">Endereço</label><input class="inp" id="nlEndereco" placeholder="Rua, número, bairro"></div>
+        <div class="fg" style="margin-top:14px"><label class="lbl">Anotações</label><textarea class="inp" id="nlAnotacoes" rows="2" placeholder="Observações iniciais..."></textarea></div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="fecharNovoLead()">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarNovoLead()">Salvar lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Importar -->
+<div class="overlay" id="importModal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <h3>Importar Planilha de Leads</h3>
+      <button class="modal-close" onclick="fecharImportModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-info" style="margin-bottom:16px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Baixe o modelo, preencha com seus leads e faça o upload. A coluna <strong>telefone</strong> é obrigatória.</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="baixarModelo()" style="margin-bottom:16px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Baixar modelo CSV
+      </button>
+      <div class="fg">
+        <label class="lbl">Arquivo CSV ou XLSX</label>
+        <input type="file" class="inp" id="importFile" accept=".csv,.txt" style="padding:6px">
+      </div>
+      <div id="importPreview" style="margin-top:8px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="fecharImportModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="processarImport()">Importar leads</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="ph">
+  <div class="ph-row">
+    <div><h1>Agente SDR</h1><p>Configure o assistente de vendas com IA que responde seus leads automaticamente.</p></div>
+    <!-- Toggle destacado -->
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <label class="toggle" style="width:48px;height:26px">
+        <input type="checkbox" id="sdrAtivo" onchange="toggleSDR(this.checked)">
+        <div class="tgl-track"></div>
+        <div class="tgl-thumb" style="width:20px;height:20px;top:3px;left:3px"></div>
+      </label>
+      <span id="sdrAtivoLabel" style="font-size:11px;color:var(--tx-3);white-space:nowrap">Ligue para ativar o agente</span>
+    </div>
+  </div>
+</div>
+
+<div class="g2" style="gap:16px;align-items:start">
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- Identidade -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">Identidade do agente</div><button class="btn btn-primary btn-sm" onclick="salvarSDR()">Salvar</button></div>
+      <div class="card-body">
+        <div class="fg">
+          <label class="lbl">Nome da empresa <span style="color:var(--red)">*</span></label>
+          <input class="inp" id="sdrEmpresa" placeholder="Ex: Petshop do Bairro" required>
+        </div>
+        <div class="fg">
+          <label class="lbl">Produtos e serviços oferecidos</label>
+          <textarea class="inp" id="sdrProdutos" rows="3" placeholder="Banho e tosa, consultas veterinárias, venda de rações premium..."></textarea>
+        </div>
+        <div class="fg">
+          <label class="lbl">Promoções ativas</label>
+          <textarea class="inp" id="sdrPromocoes" rows="2" placeholder="10% de desconto no primeiro banho..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configurações -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">Configurações de resposta</div><button class="btn btn-primary btn-sm" onclick="salvarSDR()">Salvar</button></div>
+      <div class="card-body">
+        <div class="fg"><label class="lbl">Objetivo da conversa</label>
+          <input class="inp" id="sdrObjetivo" placeholder="Agendar uma visita ou consulta"></div>
+        <div class="fg"><label class="lbl">Tom de voz</label>
+          <select class="inp" id="sdrTom">
+            <option>Amigável e profissional</option>
+            <option>Formal e técnico</option>
+            <option>Descontraído e jovem</option>
+            <option>Empático e consultivo</option>
+          </select></div>
+        <div class="fg"><label class="lbl">Provedor de IA</label>
+          <select class="inp" id="sdrProvider">
+            <option value="deepseek">DeepSeek (recomendado)</option>
+            <option value="openai">OpenAI (GPT-4)</option>
+          </select></div>
+        <div class="fg"><label class="lbl">Chave de API da IA</label>
+          <input class="inp" id="sdrAIKey" type="password" placeholder="sk-..."></div>
+      </div>
+    </div>
+
+    <!-- FAQ dinâmico -->
+    <div class="card">
+      <div class="card-head">
+        <div><div class="card-title">Perguntas frequentes (FAQ)</div><div class="card-subtitle">O agente usará isso para responder dúvidas comuns</div></div>
+        <button class="btn btn-secondary btn-sm" onclick="adicionarFAQ()">+ Adicionar</button>
+        <button class="btn btn-primary btn-sm" onclick="salvarSDR()">Salvar</button>
+      </div>
+      <div class="card-body">
+        <div id="faqDinamico" style="display:flex;flex-direction:column;gap:10px">
+          <div class="empty" style="padding:20px"><p style="font-size:12px">Clique em "+ Adicionar" para incluir uma pergunta.</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- Alerta plano (oculto para Pro/Business) -->
+    <div class="alert alert-info" id="sdrPlanAlert" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>O agente SDR está disponível nos planos Pro e Business. <a href="#" onclick="nav('planos')">Conheça os planos</a></span>
+    </div>
+
+    <!-- Prompt gerado -->
+    <div class="card">
+      <div class="card-head">
+        <div><div class="card-title">Prompt do agente</div><div class="card-subtitle">Instruções enviadas para a IA</div></div>
+        <button class="btn btn-primary btn-sm" onclick="gerarPrompt()">Gerar prompt</button>
+      </div>
+      <div class="card-body">
+        <textarea class="inp" id="sdrPrompt" rows="14" placeholder="Clique em 'Gerar prompt' para criar as instruções..." style="font-size:12px;font-family:'DM Mono','Courier New',monospace"></textarea>
+        <div class="hint mt-4" style="margin-top:6px">Você pode editar o prompt livremente.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary flex-1" onclick="gerarPrompt()">Regenerar prompt</button>
+      <button class="btn btn-primary flex-1" onclick="salvarSDR()">Salvar configurações</button>
+    </div>
+
+    <!-- Uso -->
+    <div class="card" id="sdrUsage">
+      <div class="card-head"><div class="card-title">Uso do atendente</div></div>
+      <div class="card-body">
+        <div id="sdrUsageBar"></div>
+        <div class="text-xs tx-3" style="margin-top:8px">O contador é zerado diariamente.</div>
+      </div>
+    </div>
+  </div>
+</div>

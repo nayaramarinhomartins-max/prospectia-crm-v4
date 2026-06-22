@@ -1,0 +1,157 @@
+<div class="ph">
+  <div class="ph-row">
+    <div><h1>Campanhas</h1><p>Gerencie suas campanhas de prospecção segmentadas.</p></div>
+    <button class="btn btn-primary" onclick="abrirNovaCampanha()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Nova campanha
+    </button>
+  </div>
+</div>
+
+<!-- Filtros -->
+<div class="flex gap-10" style="margin-bottom:16px">
+  <div class="srch" style="max-width:280px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input class="srch-inp" id="campSearch" placeholder="Buscar campanha..." oninput="filtrarCampanhas()">
+  </div>
+  <select class="inp" id="campFiltroStatus" style="width:150px" onchange="filtrarCampanhas()">
+    <option value="">Todos os status</option>
+    <option value="ativa">Ativas</option>
+    <option value="pausada">Pausadas</option>
+    <option value="concluida">Concluídas</option>
+  </select>
+</div>
+
+<!-- Grid de campanhas -->
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px" id="campGrid">
+  <div class="empty" style="grid-column:1/-1;padding:60px">
+    <p>Carregando campanhas...</p>
+  </div>
+</div>
+
+<!-- ══ MODAL: Lista de leads da campanha ══ -->
+<div class="overlay" id="campLeadsModal">
+  <div class="modal" style="max-width:800px;width:95vw">
+    <div class="modal-head">
+      <div>
+        <h3 id="campLeadsNome">Campanha</h3>
+        <div class="text-xs tx-3" id="campLeadsCount"></div>
+      </div>
+      <button class="modal-close" onclick="fecharCampLeads()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <!-- Toolbar -->
+      <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="abrirDispararCamp()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Disparar mensagem
+        </button>
+        <select class="inp btn-sm" id="campLeadsFiltroStatus" style="width:150px;height:32px" onchange="filtrarCampLeads()">
+          <option value="">Todos os status</option>
+          <option>Lead</option>
+          <option>Contato Feito</option>
+          <option>Interesse</option>
+          <option>Proposta</option>
+          <option>Fechado</option>
+        </select>
+        <select class="inp btn-sm" id="campLeadsFiltroScore" style="width:140px;height:32px" onchange="filtrarCampLeads()">
+          <option value="">Todos os scores</option>
+          <option value="hot">Quentes (70+)</option>
+          <option value="warm">Mornos (40-69)</option>
+        </select>
+      </div>
+      <!-- Tabela -->
+      <div class="tbl-wrap" style="max-height:400px;overflow-y:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Empresa</th>
+              <th>Telefone</th>
+              <th>Cidade</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Última interação</th>
+            </tr>
+          </thead>
+          <tbody id="campLeadsBody">
+            <tr><td colspan="6" style="text-align:center;padding:30px;color:var(--tx-3)">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="fecharCampLeads()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Disparar mensagem ══ -->
+<div class="overlay" id="campDispModal">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-head">
+      <h3>Disparar mensagem</h3>
+      <button class="modal-close" onclick="fecharDispModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-info" id="campDispResumo" style="margin-bottom:14px"></div>
+      <div class="fg">
+        <label class="lbl">Mensagem</label>
+        <textarea class="inp" id="campDispMsg" rows="4" placeholder="Olá {empresa}! Estamos entrando em contato com uma proposta especial para {cidade}..."></textarea>
+        <div class="hint">Variáveis disponíveis: {empresa}, {cidade}</div>
+      </div>
+      <div class="alert alert-info" id="campDispPreview" style="display:none;margin-top:10px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="fecharDispModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarDisparo()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Confirmar disparo
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Criar / Editar campanha ══ -->
+<div class="overlay" id="campModal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <h3 id="campModalTitulo">Nova Campanha</h3>
+      <button class="modal-close" onclick="fecharCampModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="g2" style="gap:14px">
+        <div class="fg"><label class="lbl">Nome da campanha *</label><input class="inp" id="campNome" placeholder="Ex: Petshops SP - Janeiro"></div>
+        <div class="fg"><label class="lbl">Nicho</label><input class="inp" id="campNicho" placeholder="Ex: Petshop, Restaurante..."></div>
+      </div>
+      <div class="g2" style="gap:14px;margin-top:14px">
+        <div class="fg"><label class="lbl">Cidades alvo</label><input class="inp" id="campCidades" placeholder="São Paulo, Campinas..."></div>
+        <div class="fg"><label class="lbl">DDD alvo</label><input class="inp" id="campDDD" placeholder="11, 21..."></div>
+      </div>
+      <div class="fg" style="margin-top:14px">
+        <label class="lbl">Mensagem de abordagem</label>
+        <textarea class="inp" id="campMensagem" rows="3" placeholder="Olá {empresa}! Vi que você tem um negócio em {cidade}..."></textarea>
+        <div class="hint">Variáveis: {empresa}, {cidade}, {categoria}</div>
+      </div>
+      <div class="g2" style="gap:14px;margin-top:14px">
+        <div class="fg"><label class="lbl">Limite de leads</label><input type="number" class="inp" id="campLimite" placeholder="0 = sem limite"></div>
+        <div class="fg"><label class="lbl">Status</label>
+          <select class="inp" id="campStatus">
+            <option value="ativa">Ativa</option>
+            <option value="pausada">Pausada</option>
+            <option value="concluida">Concluída</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="fecharCampModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarCampanha()">Salvar campanha</button>
+    </div>
+  </div>
+</div>

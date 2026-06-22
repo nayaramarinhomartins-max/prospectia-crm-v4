@@ -1,0 +1,175 @@
+<div class="ph">
+  <div class="ph-row">
+    <div><h1>Configurações</h1><p>Gerencie sua conta e conexão de mensagens.</p></div>
+  </div>
+</div>
+
+<div class="g2" style="gap:24px;align-items:start">
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- Conexão WhatsApp — Prospecção -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">WhatsApp — Prospecção</div>
+          <div class="card-subtitle">Número usado para enviar mensagens automáticas</div>
+        </div>
+        <div id="waStatusBadge" class="badge b-gray">Verificando...</div>
+      </div>
+      <div class="card-body">
+        <input type="hidden" id="cfgEvUrl">
+        <input type="hidden" id="cfgInstancia">
+        <input type="hidden" id="cfgEvKey">
+
+        <div id="connectionBox" style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r);padding:40px 20px;text-align:center">
+          <div id="statusVisual" style="margin-bottom:16px;display:flex;justify-content:center">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.1"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+          </div>
+          <div id="statusText" class="text-sm fw-500" style="color:var(--tx-3);margin-bottom:20px">
+            Verificando conexão...
+          </div>
+          <div style="display:flex;gap:10px;justify-content:center">
+            <button class="btn btn-primary btn-sm" onclick="conectarWA('prospeccao')">Parear Dispositivo</button>
+            <button class="btn btn-ghost btn-sm" style="color:var(--red);opacity:0.6" onclick="desconectarWA('prospeccao')">Desconectar</button>
+          </div>
+        </div>
+
+        <!-- QR Code Prospecção -->
+        <div id="qrCard" style="display:none;margin-top:16px;text-align:center">
+          <div class="text-xs tx-3" style="margin-bottom:8px">Abra o WhatsApp → Dispositivos conectados → Conectar dispositivo</div>
+          <div style="background:#fff;padding:16px;border-radius:8px;display:inline-block">
+            <div id="qrWrap"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conexão WhatsApp — SDR / Atendimento -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">WhatsApp — SDR / Atendimento</div>
+          <div class="card-subtitle">Número dedicado para responder leads sem arriscar a prospecção</div>
+        </div>
+        <div id="waStatusBadgeSDR" class="badge b-gray" style="display:none">Verificando...</div>
+      </div>
+      <div class="card-body">
+
+        <!-- Bloqueado — plano Start -->
+        <div id="sdrLock" style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r);padding:32px 20px;text-align:center">
+
+          <!-- Ícone cadeado -->
+          <div style="width:52px;height:52px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue-500)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+
+          <div class="text-sm fw-700" style="margin-bottom:6px;color:var(--tx)">Número Dedicado para SDR</div>
+
+          <!-- Benefícios -->
+          <div style="display:flex;flex-direction:column;gap:7px;margin:14px auto;max-width:290px;text-align:left">
+            <div class="flex gap-8 items-center text-xs" style="color:var(--tx-2)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Prospecção e atendimento em números separados</span>
+            </div>
+            <div class="flex gap-8 items-center text-xs" style="color:var(--tx-2)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Se a prospecção for banida, o atendimento continua</span>
+            </div>
+            <div class="flex gap-8 items-center text-xs" style="color:var(--tx-2)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Agente SDR com IA respondendo leads 24h</span>
+            </div>
+          </div>
+
+          <!-- Badge de plano necessário -->
+          <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:99px;padding:5px 12px;margin-bottom:16px">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--blue-500)" stroke-width="2.5"><polyline points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span style="font-size:11px;font-weight:600;color:var(--blue-500)">Disponível nos planos Pro e Business</span>
+          </div>
+
+          <div style="display:flex;gap:8px;justify-content:center">
+            <button class="btn btn-primary btn-sm" onclick="navegarParaPlanos()">
+              Ver planos
+            </button>
+          </div>
+        </div>
+
+        <!-- Desbloqueado — plano Pro ou Business -->
+        <div id="sdrCard" style="display:none">
+          <div id="connectionBoxSDR" style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r);padding:40px 20px;text-align:center">
+            <div id="statusVisualSDR" style="margin-bottom:16px;display:flex;justify-content:center">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.1"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+            </div>
+            <div id="statusTextSDR" class="text-sm fw-500" style="color:var(--tx-3);margin-bottom:20px">
+              Verificando conexão...
+            </div>
+            <div style="display:flex;gap:10px;justify-content:center">
+              <button class="btn btn-primary btn-sm" onclick="conectarWA('sdr')">Parear Dispositivo</button>
+              <button class="btn btn-ghost btn-sm" style="color:var(--red);opacity:0.6" onclick="desconectarWA('sdr')">Desconectar</button>
+            </div>
+          </div>
+
+          <!-- QR Code SDR -->
+          <div id="qrCardSDR" style="display:none;margin-top:16px;text-align:center">
+            <div class="text-xs tx-3" style="margin-bottom:8px">Abra o WhatsApp → Dispositivos conectados → Conectar dispositivo</div>
+            <div style="background:#fff;padding:16px;border-radius:8px;display:inline-block">
+              <div id="qrWrapSDR"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Dados da Conta -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="card">
+      <div class="card-head"><div class="card-title">Dados da Conta</div></div>
+      <div class="card-body">
+        <div class="fg">
+          <label class="lbl">ID de Identificação</label>
+          <div id="userId" class="text-xs" style="color:var(--tx-3);font-family:monospace;background:rgba(255,255,255,0.02);padding:8px;border-radius:4px;border:1px solid rgba(255,255,255,0.05)">---</div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Nome do Titular</label>
+          <input class="inp" id="cfgNome" placeholder="Nome completo">
+        </div>
+
+        <div class="fg">
+          <label class="lbl">E-mail</label>
+          <input class="inp" id="cfgEmail" placeholder="E-mail" disabled style="opacity:0.6;cursor:not-allowed">
+        </div>
+
+        <div class="fg">
+          <label class="lbl">CPF</label>
+          <input class="inp" id="cfgCpf" placeholder="Não informado" disabled style="opacity:0.6;cursor:not-allowed">
+        </div>
+
+        <div class="g2" style="margin:16px 0;gap:12px">
+          <div style="background:rgba(255,255,255,0.01);padding:16px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.05)">
+            <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase">Leads/Mês</div>
+            <div id="userLimiteLeads" class="fw-700 fs-18">0</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.01);padding:16px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.05)">
+            <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase">Prospecções</div>
+            <div id="userLimiteProspecao" class="fw-700 fs-18">0</div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;border-top:1px solid rgba(255,255,255,0.05);padding-top:20px">
+          <div class="text-xs tx-3 fw-600" style="margin-bottom:12px;text-transform:uppercase">Segurança</div>
+          <div class="fg"><input class="inp" id="cfgSenhaAtual" type="password" placeholder="Senha atual"></div>
+          <div class="g2">
+            <input class="inp" id="cfgSenhaNova" type="password" placeholder="Nova senha">
+            <input class="inp" id="cfgSenhaConf" type="password" placeholder="Confirmar">
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-full" style="margin-top:24px" onclick="salvarPerfil()">Atualizar Dados</button>
+      </div>
+    </div>
+  </div>
+</div>

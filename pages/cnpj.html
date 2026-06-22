@@ -1,0 +1,143 @@
+<div class="ph">
+  <div class="ph-row">
+    <div>
+      <h1>Consulta CNPJ</h1>
+      <p>Busque dados de qualquer empresa e salve direto no CRM.</p>
+    </div>
+  </div>
+</div>
+
+<div class="g2" style="gap:24px;align-items:start">
+
+  <!-- Coluna esquerda: busca + resultado -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- Card de busca -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Buscar empresa</div>
+      </div>
+      <div class="card-body">
+        <div class="fg">
+          <label class="lbl">CNPJ</label>
+          <div style="display:flex;gap:10px">
+            <input class="inp" id="inputCnpj" placeholder="00.000.000/0001-00" maxlength="18"
+              oninput="mascararCnpj(this)"
+              onkeydown="if(event.key==='Enter') buscarCnpj()">
+            <button class="btn btn-primary" id="btnBuscar" onclick="buscarCnpj()" style="white-space:nowrap;min-width:100px">
+              Buscar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resultado da busca -->
+    <div id="cnpjResultado" style="display:none">
+      <div class="card">
+        <div class="card-head" style="justify-content:space-between">
+          <div>
+            <div class="card-title" id="resRazao">—</div>
+            <div class="card-subtitle" id="resFantasia" style="margin-top:2px"></div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span id="resSituacaoBadge" class="badge b-green">Ativa</span>
+            <button class="btn btn-primary btn-sm" onclick="salvarComoLead()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Salvar como Lead
+            </button>
+          </div>
+        </div>
+        <div class="card-body" style="padding-top:0">
+
+          <!-- Grid de dados -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+
+            <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px">
+              <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">CNAE</div>
+              <div class="text-sm fw-500" id="resCnae">—</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px">
+              <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">Porte</div>
+              <div class="text-sm fw-500" id="resPorte">—</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px">
+              <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">Telefone</div>
+              <div class="text-sm fw-500" id="resTelefone">—</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px">
+              <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">E-mail</div>
+              <div class="text-sm fw-500" id="resEmail" style="word-break:break-all">—</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px">
+              <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">Data de Abertura</div>
+              <div class="text-sm fw-500" id="resAbertura">—</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px">
+              <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">Capital Social</div>
+              <div class="text-sm fw-500" id="resCapital">—</div>
+            </div>
+
+          </div>
+
+          <!-- Redes Sociais -->
+          <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px;margin-bottom:12px">
+            <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">Redes Sociais</div>
+            <div id="resRedesSociais"></div>
+          </div>
+
+          <!-- Endereço -->
+          <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px">
+            <div class="text-xs tx-3" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">Endereço</div>
+            <div class="text-sm fw-500" id="resEndereco">—</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado vazio -->
+    <div id="cnpjVazio" style="background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r);padding:48px 20px;text-align:center">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.15;margin-bottom:12px"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+      <div class="text-sm fw-500" style="color:var(--tx-3)">Digite um CNPJ para buscar os dados da empresa</div>
+    </div>
+
+    <!-- Loading -->
+    <div id="cnpjLoading" style="display:none;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r);padding:48px 20px;text-align:center">
+      <div style="width:28px;height:28px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--blue-500);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px"></div>
+      <div class="text-sm" style="color:var(--tx-3)">Consultando Receita Federal...</div>
+    </div>
+
+    <!-- Erro -->
+    <div id="cnpjErro" style="display:none;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:var(--r);padding:24px 20px;text-align:center">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" style="margin-bottom:10px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="text-sm fw-600" style="color:#ef4444;margin-bottom:4px">CNPJ não encontrado</div>
+      <div class="text-xs tx-3">Verifique se o número está correto e tente novamente.</div>
+    </div>
+
+  </div>
+
+  <!-- Coluna direita: histórico -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">Histórico de consultas</div>
+      <button class="btn btn-ghost btn-sm" onclick="limparHistorico()" style="font-size:11px;opacity:0.5">Limpar</button>
+    </div>
+    <div id="historicoLista" style="padding:0">
+      <!-- preenchido por JS -->
+    </div>
+    <div id="historicoVazio" style="padding:32px 20px;text-align:center">
+      <div class="text-xs tx-3">Nenhuma consulta realizada ainda.</div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>

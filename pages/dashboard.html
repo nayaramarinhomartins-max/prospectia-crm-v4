@@ -1,0 +1,148 @@
+<div class="ph">
+  <div class="ph-row">
+    <div>
+      <h1 id="dashGreet">Bom dia 👋</h1>
+      <p>Visão geral da sua operação de prospecção.</p>
+    </div>
+    <div class="flex gap-8 items-center">
+      <button class="btn btn-secondary btn-sm" onclick="nav('captacao')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Captação
+      </button>
+      <button class="btn btn-primary btn-sm" onclick="nav('conversas')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Ver Conversas
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Barra do plano -->
+<div class="card mb-16">
+  <div class="cp" style="padding:14px 20px">
+    <div class="flex justify-between items-center" style="margin-bottom:10px">
+      <div class="flex items-center gap-8">
+        <span class="text-sm fw-600 tx-2">Uso do plano</span>
+        <span class="plan-chip start" id="dashPlanChip">Start</span>
+      </div>
+      <span class="text-xs tx-3" id="dashPlanVenc"></span>
+    </div>
+    <div class="g2" style="gap:20px">
+      <div id="dashBarLeads"></div>
+      <div id="dashBarProsp"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 KPI cards -->
+<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:22px" id="dashStats">
+  <div class="stat-c c-blue">
+    <div class="stat-label">Leads captados</div>
+    <div class="stat-val" id="dLeads">—</div>
+    <div class="stat-sub">este mês</div>
+  </div>
+  <div class="stat-c c-green">
+    <div class="stat-label">Prospecções hoje</div>
+    <div class="stat-val" id="dProsp">—</div>
+    <div class="stat-sub">disparos realizados</div>
+  </div>
+  <div class="stat-c c-yellow">
+    <div class="stat-label">Conversas ativas</div>
+    <div class="stat-val" id="dConversas">—</div>
+    <div class="stat-sub">respondidas pela IA</div>
+  </div>
+  <div class="stat-c c-purple">
+    <div class="stat-label">Score médio</div>
+    <div class="stat-val" id="dScore">—</div>
+    <div class="stat-sub">qualificação dos leads</div>
+  </div>
+  <div class="stat-c c-green">
+    <div class="stat-label">SMS bônus</div>
+    <div class="stat-val" id="dSMS">—</div>
+    <div class="stat-sub">restantes no plano</div>
+  </div>
+  <div class="stat-c c-yellow">
+    <div class="stat-label">Ligações bônus</div>
+    <div class="stat-val" id="dVoz">—</div>
+    <div class="stat-sub">restantes no plano</div>
+  </div>
+</div>
+
+<!-- Mini pipeline -->
+<div class="card mb-16">
+  <div class="card-head">
+    <div>
+      <div class="card-title">Pipeline de vendas</div>
+      <div class="card-subtitle">Distribuição dos leads por etapa</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="nav('pipeline')">Ver pipeline</button>
+  </div>
+  <div class="cp" style="padding:16px 20px">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px" id="dashPipeline">
+      <div class="skel" style="height:64px;border-radius:10px"></div>
+      <div class="skel" style="height:64px;border-radius:10px"></div>
+      <div class="skel" style="height:64px;border-radius:10px"></div>
+      <div class="skel" style="height:64px;border-radius:10px"></div>
+      <div class="skel" style="height:64px;border-radius:10px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Conversas + Leads recentes -->
+<div class="g2" style="gap:16px;margin-bottom:16px">
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Últimas conversas</div>
+        <div class="card-subtitle">Leads que interagiram recentemente</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="nav('conversas')">Ver todas</button>
+    </div>
+    <div id="dashConversas">
+      <div class="empty">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <p>Nenhuma conversa ainda</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Leads recentes</div>
+        <div class="card-subtitle">Últimos leads captados</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="nav('leads')">Ver todos</button>
+    </div>
+    <div id="dashLeadsList">
+      <div class="empty">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <p>Nenhum lead ainda</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Atalhos rápidos -->
+<div class="card">
+  <div class="card-head">
+    <div class="card-title">Atalhos rápidos</div>
+  </div>
+  <div class="cp" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+    <button class="btn btn-secondary" style="height:56px;flex-direction:column;gap:4px;font-size:12px" onclick="nav('sms')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="15" y2="10"/></svg>
+      Enviar SMS
+    </button>
+    <button class="btn btn-secondary" style="height:56px;flex-direction:column;gap:4px;font-size:12px" onclick="nav('ligacoes')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 5.93 5.93l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/></svg>
+      Ligar agora
+    </button>
+    <button class="btn btn-secondary" style="height:56px;flex-direction:column;gap:4px;font-size:12px" onclick="nav('captacao')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Captar Leads
+    </button>
+    <button class="btn btn-secondary" style="height:56px;flex-direction:column;gap:4px;font-size:12px" onclick="nav('carteira')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      Recarregar
+    </button>
+  </div>
+</div>

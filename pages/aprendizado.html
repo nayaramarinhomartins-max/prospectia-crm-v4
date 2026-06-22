@@ -1,0 +1,242 @@
+<div class="ph">
+  <div class="ph-row">
+    <div>
+      <h1>Aprendizado & Follow-up</h1>
+      <p>Configure o roteiro do agente e as regras de acompanhamento dos leads.</p>
+    </div>
+    <button class="btn btn-primary" onclick="salvarTudo()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Salvar tudo
+    </button>
+  </div>
+</div>
+
+<div class="g2" style="gap:16px;align-items:start">
+
+  <!-- Roteiro da conversa -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Roteiro da conversa</div>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info" style="margin-bottom:14px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>O roteiro guia o agente SDR na sequência ideal da conversa.</span>
+        </div>
+        <div class="fg">
+          <label class="lbl">Passos do roteiro (um por linha)</label>
+          <textarea class="inp" id="aprRoteiro" rows="8" placeholder="1. Apresentar a empresa de forma amigável&#10;2. Perguntar sobre a necessidade atual&#10;3. Apresentar o produto ou serviço principal&#10;4. Mostrar um benefício específico para o nicho do lead&#10;5. Oferecer próximo passo (agendar, enviar proposta, etc.)"></textarea>
+        </div>
+        <div class="fg">
+          <label class="lbl">Perguntas obrigatórias</label>
+          <textarea class="inp" id="aprPerguntas" rows="4" placeholder="Qual é o principal desafio que você enfrenta hoje?&#10;Você já usa alguma solução para isso?&#10;Qual seria o melhor horário para uma conversa?"></textarea>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="salvarAprendizado()">Salvar roteiro</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Régua de follow-up -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Régua de Follow-up</div>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info" style="margin-bottom:14px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+          <span>Follow-ups são enviados automaticamente pelo agente conforme as regras abaixo.</span>
+        </div>
+        <div id="followupRules" style="display:flex;flex-direction:column;gap:10px">
+          <!-- Renderizado por JS -->
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn btn-secondary btn-sm" onclick="adicionarRegra()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Adicionar regra
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="salvarReguas()">Salvar régua</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Follow-ups pendentes -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">Pendentes hoje</div></div>
+      <div id="followupPendentes">
+        <div style="padding:14px 20px;font-size:13px;color:var(--tx-3)">Carregando...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Helpers ──────────────────────────────────────────────────
+function coletarRegras() {
+  return Array.from(document.querySelectorAll('#followupRules .regra-row')).map(row => ({
+    dias:     parseInt(row.querySelector('.regra-dias').value) || 1,
+    mensagem: row.querySelector('.regra-msg').value.trim(),
+    canal:    row.querySelector('.regra-canal').value
+  }));
+}
+
+function renderizarRegra(r) {
+  r = r || { dias: 1, mensagem: '', canal: 'whatsapp' };
+  const div = document.createElement('div');
+  div.className = 'regra-row';
+  div.style.cssText = 'display:flex;gap:8px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:10px';
+  div.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <label style="font-size:12px;color:var(--tx-3);white-space:nowrap">Após</label>
+        <input type="number" class="inp regra-dias" min="1" value="${r.dias}"
+          style="width:60px;height:30px;padding:4px 8px;font-size:13px">
+        <label style="font-size:12px;color:var(--tx-3);white-space:nowrap">dia(s) sem resposta — Canal:</label>
+        <select class="inp regra-canal" style="height:30px;font-size:13px;flex:1">
+          <option value="whatsapp" ${r.canal==='whatsapp'?'selected':''}>WhatsApp</option>
+          <option value="sms"      ${r.canal==='sms'     ?'selected':''}>SMS</option>
+          <option value="ligacao"  ${r.canal==='ligacao' ?'selected':''}>Ligação</option>
+        </select>
+      </div>
+      <textarea class="inp regra-msg" rows="2"
+        placeholder="Mensagem do follow-up..."
+        style="font-size:12px">${r.mensagem}</textarea>
+    </div>
+    <button onclick="this.closest('.regra-row').remove()"
+      style="margin-top:2px;background:none;border:none;cursor:pointer;color:var(--tx-4);flex-shrink:0"
+      title="Remover">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>`;
+  return div;
+}
+
+function adicionarRegra(r) {
+  document.getElementById('followupRules').appendChild(renderizarRegra(r));
+}
+
+// ─── Salvar roteiro (FIX 1: sb.patch + refreshUser + showToast) ──
+async function salvarAprendizado() {
+  const u = getUser();
+  if (!u) return;
+  try {
+    await sb.patch('USUARIOS', `id=eq.${u.id}`, {
+      roteiro_agente:         document.getElementById('aprRoteiro').value.trim(),
+      perguntas_obrigatorias: document.getElementById('aprPerguntas').value.trim()
+    });
+    await refreshUser();
+    showToast('Roteiro salvo!', 'success');
+  } catch(e) {
+    console.error('salvarAprendizado', e);
+    showToast('Erro ao salvar roteiro: ' + e.message, 'error');
+  }
+}
+
+// ─── Salvar régua (FIX 3: botão individual) ───────────────────
+async function salvarReguas() {
+  const u = getUser();
+  if (!u) return;
+  try {
+    await sb.patch('USUARIOS', `id=eq.${u.id}`, {
+      followup_rules: JSON.stringify(coletarRegras())
+    });
+    await refreshUser();
+    showToast('Régua salva!', 'success');
+  } catch(e) {
+    console.error('salvarReguas', e);
+    showToast('Erro ao salvar régua: ' + e.message, 'error');
+  }
+}
+
+// ─── Salvar tudo (FIX 3: botão unificado, 1 único PATCH) ──────
+async function salvarTudo() {
+  const u = getUser();
+  if (!u) return;
+  try {
+    await sb.patch('USUARIOS', `id=eq.${u.id}`, {
+      roteiro_agente:         document.getElementById('aprRoteiro').value.trim(),
+      perguntas_obrigatorias: document.getElementById('aprPerguntas').value.trim(),
+      followup_rules:         JSON.stringify(coletarRegras())
+    });
+    await refreshUser();
+    showToast('Tudo salvo com sucesso!', 'success');
+  } catch(e) {
+    console.error('salvarTudo', e);
+    showToast('Erro ao salvar: ' + e.message, 'error');
+  }
+}
+
+// ─── Pendentes (FIX 2: filtra pelo `dias` de cada regra) ──────
+function calcularPendentes(leads, regras) {
+  if (!regras.length) return [];
+  const agora = Date.now();
+  const menorLimiar = Math.min(...regras.map(r => r.dias));
+  return leads.filter(lead => {
+    if (['Fechado','Perdido'].includes(lead.status)) return false;
+    const ref = lead.ultima_interacao || lead.created_at;
+    if (!ref) return false;
+    return (agora - new Date(ref).getTime()) / 86400000 >= menorLimiar;
+  });
+}
+
+function renderizarPendentes(leads, regras) {
+  const container = document.getElementById('followupPendentes');
+  const pendentes  = calcularPendentes(leads, regras);
+  if (!pendentes.length) {
+    container.innerHTML = '<div style="padding:14px 20px;font-size:13px;color:var(--tx-3)">Nenhum follow-up pendente hoje 🎉</div>';
+    return;
+  }
+  const agora = Date.now();
+  const regrasOrdenadas = [...regras].sort((a,b) => a.dias - b.dias);
+  const canalLabel = { whatsapp:'WhatsApp', sms:'SMS', ligacao:'Ligação' };
+  container.innerHTML = pendentes.map(lead => {
+    const dias = Math.floor((agora - new Date(lead.ultima_interacao || lead.created_at).getTime()) / 86400000);
+    const regra = regrasOrdenadas.filter(r => r.dias <= dias).pop();
+    const canal = regra ? (canalLabel[regra.canal] || regra.canal) : '—';
+    return `
+      <div style="padding:12px 20px;border-bottom:1px solid var(--border);
+                  display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <div class="fw-600 text-sm" style="color:var(--tx)">${lead.empresa || lead.telefone}</div>
+          <div class="text-xs tx-3">${dias} dia(s) sem resposta · ${canal}</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="nav('conversas')">Ver conversa</button>
+      </div>`;
+  }).join('');
+}
+
+// ─── Init ─────────────────────────────────────────────────────
+async function init_aprendizado() {
+  try {
+    const u = getUser();
+    if (!u) return;
+
+    if (u.roteiro_agente)
+      document.getElementById('aprRoteiro').value = u.roteiro_agente;
+    if (u.perguntas_obrigatorias)
+      document.getElementById('aprPerguntas').value = u.perguntas_obrigatorias;
+
+    let regras = [];
+    try { regras = u.followup_rules ? JSON.parse(u.followup_rules) : []; } catch { regras = []; }
+
+    if (regras.length) {
+      regras.forEach(r => adicionarRegra(r));
+    } else {
+      adicionarRegra({ dias: 1, mensagem: 'Oi {empresa}, tudo bem? Só passando para ver se posso ajudar!', canal: 'whatsapp' });
+    }
+
+    const leads = await sb.get('MARKETPLACE', `usuario_id=eq.${u.id}&select=empresa,pushname,telefone,status_crm,ultima_interacao&status_crm=neq.Fechado&status_crm=neq.Perdido&limit=50`);
+    renderizarPendentes(leads || [], regras);
+
+  } catch(e) {
+    console.error('init_aprendizado', e);
+    document.getElementById('followupPendentes').innerHTML =
+      '<div style="padding:14px 20px;font-size:13px;color:var(--red)">Erro ao carregar dados.</div>';
+  }
+}
+
+init_aprendizado();
+</script>

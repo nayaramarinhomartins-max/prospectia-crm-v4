@@ -1,0 +1,350 @@
+<style>
+/* ── Graficos – Design limpo, sem emoji ── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
+.g-root {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* KPIs */
+.g-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.g-kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px 16px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .15s, box-shadow .15s;
+  animation: gFadeUp .35s ease both;
+}
+.g-kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.07);
+}
+.g-kpi::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 10px 10px 0 0;
+}
+.g-kpi.k-blue::before   { background: #3B82F6; }
+.g-kpi.k-green::before  { background: #10B981; }
+.g-kpi.k-amber::before  { background: #F59E0B; }
+.g-kpi.k-purple::before { background: #8B5CF6; }
+
+.g-kpi:nth-child(1) { animation-delay: .05s }
+.g-kpi:nth-child(2) { animation-delay: .10s }
+.g-kpi:nth-child(3) { animation-delay: .15s }
+.g-kpi:nth-child(4) { animation-delay: .20s }
+
+.g-kpi-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: var(--surface-3, rgba(148,163,184,.08));
+}
+.g-kpi-icon svg { width: 16px; height: 16px; }
+.g-kpi.k-blue   .g-kpi-icon { background: rgba(59,130,246,.1); }
+.g-kpi.k-green  .g-kpi-icon { background: rgba(16,185,129,.1); }
+.g-kpi.k-amber  .g-kpi-icon { background: rgba(245,158,11,.1); }
+.g-kpi.k-purple .g-kpi-icon { background: rgba(139,92,246,.1); }
+.g-kpi.k-blue   .g-kpi-icon svg { color: #3B82F6; }
+.g-kpi.k-green  .g-kpi-icon svg { color: #10B981; }
+.g-kpi.k-amber  .g-kpi-icon svg { color: #F59E0B; }
+.g-kpi.k-purple .g-kpi-icon svg { color: #8B5CF6; }
+
+.g-kpi-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--tx);
+  line-height: 1;
+  margin-bottom: 5px;
+  letter-spacing: -.5px;
+}
+.g-kpi-lbl {
+  font-size: 11px;
+  color: var(--tx);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+}
+.g-kpi-sub {
+  font-size: 11px;
+  color: var(--tx-4);
+  margin-top: 2px;
+}
+
+/* Alertas */
+#gAlertas { display: none; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 13px;
+  font-weight: 500;
+}
+.alert-warning {
+  background: rgba(245,158,11,.07);
+  border-color: rgba(245,158,11,.25);
+  color: var(--tx);
+}
+.alert-info {
+  background: rgba(59,130,246,.07);
+  border-color: rgba(59,130,246,.25);
+  color: var(--tx);
+}
+.alert-error {
+  background: rgba(239,68,68,.07);
+  border-color: rgba(239,68,68,.25);
+  color: var(--tx);
+}
+.alert-icon { flex-shrink: 0; display: flex; align-items: center; }
+.alert-warning .alert-icon { color: #F59E0B; }
+.alert-info    .alert-icon { color: #3B82F6; }
+.alert-error   .alert-icon { color: #EF4444; }
+.alert-msg { flex: 1; }
+.alert-action { white-space: nowrap; font-size: 11px; flex-shrink: 0; color: var(--tx-4); }
+
+/* Cards */
+.g-row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.g-row3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.g-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.g-card-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.g-card-body { padding: 16px 18px; }
+.g-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tx);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.g-sub { font-size: 11px; color: var(--tx-4); margin-top: 3px; }
+
+/* Status bars */
+.sb-item { margin-bottom: 11px; }
+.sb-item:last-child { margin-bottom: 0; }
+.sb-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+.sb-name { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--tx); }
+.sb-dot  { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.sb-count { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--tx); }
+.sb-pct  { font-size: 11px; color: var(--tx-4); margin-left: 4px; }
+.sb-track { height: 4px; background: var(--surface-3, rgba(148,163,184,.12)); border-radius: 99px; overflow: hidden; }
+.sb-fill  { height: 100%; border-radius: 99px; transition: width .6s cubic-bezier(.4,0,.2,1); }
+
+/* Categoria */
+.cat-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.cat-item:last-child { border-bottom: none; }
+.cat-rank { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--tx-4); width: 14px; text-align: center; flex-shrink: 0; }
+.cat-name { flex: 1; font-size: 12px; font-weight: 600; color: var(--tx); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cat-bar  { width: 56px; height: 3px; background: var(--surface-3, rgba(148,163,184,.12)); border-radius: 99px; flex-shrink: 0; overflow: hidden; }
+.cat-fill { height: 100%; border-radius: 99px; }
+.cat-val  { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; flex-shrink: 0; min-width: 26px; text-align: right; }
+
+/* Linha chart */
+.lc-wrap { height: 150px; position: relative; margin-top: 4px; }
+.lc-wrap svg { width: 100%; height: 100%; overflow: visible; }
+
+/* Funil */
+.funil-wrap { padding: 8px 32px 16px; }
+.funil-legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-top: 20px; }
+.funil-leg-item { display: flex; align-items: center; gap: 6px; }
+.funil-leg-dot  { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.funil-leg-lbl  { font-size: 11px; font-weight: 500; color: var(--tx-4); }
+
+@keyframes gFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<!-- Header -->
+<div class="ph g-root">
+  <div class="ph-row">
+    <div>
+      <h1>Relatórios</h1>
+      <p>Análise completa do desempenho da sua prospecção.</p>
+    </div>
+    <select class="filt" id="grafPeriodo" onchange="init_graficos()" style="height:34px">
+      <option value="30">Últimos 30 dias</option>
+      <option value="60">Últimos 60 dias</option>
+      <option value="90">Últimos 90 dias</option>
+      <option value="0">Todo o período</option>
+    </select>
+  </div>
+</div>
+
+<!-- Alertas -->
+<div id="gAlertas"></div>
+
+<!-- KPIs -->
+<div class="g-kpis g-root">
+  <div class="g-kpi k-blue">
+    <div class="g-kpi-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="8" width="3" height="6" rx="1"/><rect x="6.5" y="4" width="3" height="10" rx="1"/><rect x="12" y="1" width="3" height="13" rx="1"/>
+      </svg>
+    </div>
+    <div class="g-kpi-val" id="gTotalLeads">—</div>
+    <div class="g-kpi-lbl">Total de leads</div>
+    <div class="g-kpi-sub">captados no período</div>
+  </div>
+  <div class="g-kpi k-green">
+    <div class="g-kpi-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 14s-5-2.5-5-7c0-2.5 2-4.5 5-5 0 2 1.5 3.5 3 4.5-.5-1.5.5-3.5.5-3.5C13.5 5 13 9 13 9c0 3-2.5 5-5 5z"/>
+      </svg>
+    </div>
+    <div class="g-kpi-val" id="gLeadsQual">—</div>
+    <div class="g-kpi-lbl">Leads quentes</div>
+    <div class="g-kpi-sub">score maior ou igual a 70</div>
+  </div>
+  <div class="g-kpi k-amber">
+    <div class="g-kpi-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="1,12 5.5,7 9,10 15,3"/>
+        <polyline points="11,3 15,3 15,7"/>
+      </svg>
+    </div>
+    <div class="g-kpi-val" id="gTaxaConv">—</div>
+    <div class="g-kpi-lbl">Taxa de conversão</div>
+    <div class="g-kpi-sub">leads para fechados</div>
+  </div>
+  <div class="g-kpi k-purple">
+    <div class="g-kpi-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="8" r="6.5"/>
+        <polyline points="5,8.5 7,10.5 11,6"/>
+      </svg>
+    </div>
+    <div class="g-kpi-val" id="gFechou">—</div>
+    <div class="g-kpi-lbl">Fechamentos</div>
+    <div class="g-kpi-sub">no período</div>
+  </div>
+</div>
+
+<!-- Status + Categoria -->
+<div class="g-row2 g-root">
+  <div class="g-card">
+    <div class="g-card-head">
+      <div>
+        <div class="g-title">Leads por status</div>
+      </div>
+    </div>
+    <div class="g-card-body">
+      <div id="gByStatus"></div>
+    </div>
+  </div>
+  <div class="g-card">
+    <div class="g-card-head">
+      <div>
+        <div class="g-title">Score médio por categoria</div>
+        <div class="g-sub">Top 8 nichos</div>
+      </div>
+    </div>
+    <div class="g-card-body" style="padding-top:8px">
+      <div id="gByCategoria"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Canal + Origens + Taxa Resposta — dados de CONVERSAS -->
+<div class="g-row3 g-root">
+  <div class="g-card">
+    <div class="g-card-head">
+      <div>
+        <div class="g-title">Mensagens por canal</div>
+        <div class="g-sub">WhatsApp, SMS e Voz</div>
+      </div>
+    </div>
+    <div class="g-card-body">
+      <div id="gCanais"></div>
+    </div>
+  </div>
+  <div class="g-card">
+    <div class="g-card-head">
+      <div>
+        <div class="g-title">Origem das mensagens</div>
+        <div class="g-sub">De onde vem cada interação</div>
+      </div>
+    </div>
+    <div class="g-card-body">
+      <div id="gOrigens"></div>
+    </div>
+  </div>
+  <div class="g-card">
+    <div class="g-card-head">
+      <div>
+        <div class="g-title">Taxa de resposta real</div>
+        <div class="g-sub">Leads abordados que responderam</div>
+      </div>
+    </div>
+    <div class="g-card-body">
+      <div id="gTaxaResposta"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Evolução linha -->
+<div class="g-card g-root" style="margin-bottom:16px">
+  <div class="g-card-head">
+    <div>
+      <div class="g-title">Evolução de captações</div>
+      <div class="g-sub">Mensagens enviadas por semana</div>
+    </div>
+    <span id="gEvolTotal" style="font-size:11px;color:var(--tx-4);font-family:'DM Mono',monospace"></span>
+  </div>
+  <div class="g-card-body">
+    <div class="lc-wrap">
+      <svg id="gLineChart" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+</div>
+
+<!-- Funil continuo -->
+<div class="g-card g-root" style="margin-bottom:16px">
+  <div class="g-card-head">
+    <div>
+      <div class="g-title">Funil de conversão</div>
+      <div class="g-sub">Proporção real por etapa</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="init_graficos()" style="font-size:11px;color:var(--tx-4)">Atualizar</button>
+  </div>
+  <div id="gFunil" class="funil-wrap"></div>
+</div>

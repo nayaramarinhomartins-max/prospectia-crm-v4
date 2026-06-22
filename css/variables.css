@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════
+   ProspectIA — Design Tokens
+   Paleta: Azul Cobalto #1D4ED8
+   Fonte: Inter
+   ═══════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Blues */
+  --blue-50:  #EFF6FF;
+  --blue-100: #DBEAFE;
+  --blue-200: #BFDBFE;
+  --blue-400: #60A5FA;
+  --blue-500: #3B82F6;
+  --blue-600: #2563EB;
+  --blue-700: #1D4ED8;
+  --blue-800: #1E40AF;
+  --blue-900: #1E3A8A;
+
+  /* Semantic */
+  --green:       #10B981; --green-bg:  #D1FAE5; --green-border: #6EE7B7;
+  --yellow:      #F59E0B; --yellow-bg: #FEF3C7; --yellow-border:#FDE68A;
+  --red:         #EF4444; --red-bg:    #FEE2E2; --red-border:   #FECACA;
+  --orange:      #F97316; --orange-bg: #FFEDD5; --orange-border:#FED7AA;
+  --purple:      #8B5CF6; --purple-bg: #EDE9FE;
+
+  /* Spacing */
+  --sidebar-w: 232px;
+  --topbar-h:  62px;
+
+  /* Shape */
+  --r:    6px;
+  --r-lg: 10px;
+  --r-xl: 14px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg: 0 10px 32px rgba(0,0,0,.10), 0 4px 8px rgba(0,0,0,.05);
+
+  --transition: 140ms ease;
+}
+
+/* ── LIGHT ── */
+[data-theme="light"], :root {
+  --bg:         #F4F6FB;
+  --surface:    #FFFFFF;
+  --surface-2:  #F0F3FA;
+  --surface-3:  #E8EEFA;
+  --border:     #E2E7F3;
+  --border-2:   #CDD5ED;
+
+  --tx:         #0D1526;
+  --tx-2:       #2D3A55;
+  --tx-3:       #5A6A8A;
+  --tx-4:       #8FA0BF;
+
+  --sidebar-bg:         #FFFFFF;
+  --sidebar-border:     #E8EDF7;
+  --sidebar-item-hover: #F4F6FB;
+  --sidebar-item-active-bg: #EEF2FF;
+  --sidebar-item-active-tx: #1D4ED8;
+  --sidebar-item-active-ic: #2563EB;
+  --sidebar-tx:         #3D4D6A;
+  --sidebar-label:      #9AAAC5;
+
+  --topbar-bg:  #FFFFFF;
+}
+
+/* ── DARK ── */
+[data-theme="dark"] {
+  --bg:         #080E1C;
+  --surface:    #0F1829;
+  --surface-2:  #162035;
+  --surface-3:  #1C2941;
+  --border:     #1F2E47;
+  --border-2:   #28395A;
+
+  --tx:         #E8EEFF;
+  --tx-2:       #B0BEDD;
+  --tx-3:       #6A82A8;
+  --tx-4:       #3D5070;
+
+  --sidebar-bg:         #0C1523;
+  --sidebar-border:     #182438;
+  --sidebar-item-hover: #162035;
+  --sidebar-item-active-bg: rgba(37,99,235,.15);
+  --sidebar-item-active-tx: #60A5FA;
+  --sidebar-item-active-ic: #60A5FA;
+  --sidebar-tx:         #8FA8CC;
+  --sidebar-label:      #3D5070;
+
+  --topbar-bg:  #0C1523;
+
+  /* Semantic overrides */
+  --blue-50:    rgba(30,58,138,.18);
+  --blue-100:   rgba(30,58,138,.30);
+  --green-bg:   #022C22;
+  --yellow-bg:  #271700;
+  --red-bg:     #200909;
+  --orange-bg:  #1F0C02;
+  --purple-bg:  #180D35;
+  --green-border: #065F46;
+  --yellow-border:#78350F;
+  --red-border:   #7F1D1D;
+  --orange-border:#7C2D12;
+}
+
+/* ── Dark mode alert overrides — more elegant, less aggressive ── */
+[data-theme="dark"] {
+  --alert-warn-bg:    #1A1F2E;
+  --alert-warn-border:#2A3450;
+  --alert-warn-tx:    #94A3B8;
+
+  --alert-info-bg:    #0F1829;
+  --alert-info-border:#1E3256;
+  --alert-info-tx:    #7FA8CC;
+
+  --alert-success-bg:    #0A1F18;
+  --alert-success-border:#0F3028;
+  --alert-success-tx:    #4ADE80;
+
+  --alert-error-bg:    #1A0F0F;
+  --alert-error-border: #3A1515;
+  --alert-error-tx:    #F87171;
+}
+
+/* ── v4: vermelho suave no dark mode ── */
+[data-theme="dark"] {
+  --red:        #F87171;
+  --red-bg:     #1A0A0A;
+  --red-border: #5C1A1A;
+}
+[data-theme="dark"] .alert-danger {
+  color: #FCA5A5;
+}
+[data-theme="dark"] .alert-warn {
+  --alert-warn-tx: #94A3B8;
+}

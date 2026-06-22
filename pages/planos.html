@@ -1,0 +1,192 @@
+<div class="ph">
+  <h1>Planos</h1>
+  <p>Escolha o plano ideal para o seu volume de prospecção.</p>
+</div>
+
+<!-- Plano atual -->
+<div class="card mb-24" id="planoAtualCard" style="margin-bottom:22px">
+  <div class="cp" style="padding:16px 20px">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-12">
+        <div>
+          <div class="fw-600 text-sm tx-2">Seu plano atual</div>
+          <div class="flex items-center gap-8" style="margin-top:3px">
+            <span class="plan-chip start" id="planoAtualChip">Start</span>
+            <span class="text-xs tx-3" id="planoVencimento"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-8">
+        <div id="planoUsage" class="flex gap-16"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cards de planos -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+
+  <!-- Start -->
+  <div class="card" id="cardStart">
+    <div class="cp" style="padding:22px 24px">
+      <div class="plan-chip start" style="margin-bottom:12px">Start</div>
+      <div style="font-size:28px;font-weight:800;color:var(--tx);letter-spacing:-.5px;margin-bottom:2px">R$ 49<span style="font-size:16px;font-weight:500">,90</span></div>
+      <div style="font-size:12px;color:var(--tx-3);margin-bottom:20px">/mês</div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px">
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>100</b> leads captados/mês</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>30</b> prospecções/dia</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--tx-4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span style="color:var(--tx-4)">Agente SDR indisponível</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--tx-4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span style="color:var(--tx-4)">Sem número dedicado SDR</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--tx-4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span style="color:var(--tx-4)">Sem bônus SMS/Voz</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>SMS e ligações avulsas</span></div>
+      </div>
+      <button class="btn btn-secondary btn-full" onclick="confirmarPlano('Start','R$ 49,90')">Assinar Start</button>
+    </div>
+  </div>
+
+  <!-- Pro (destaque) -->
+  <div class="card" style="border-color:var(--blue-400);position:relative;overflow:hidden">
+    <div style="position:absolute;top:12px;right:12px;background:var(--blue-600);color:white;font-size:10px;font-weight:700;padding:2px 9px;border-radius:99px;letter-spacing:.04em">POPULAR</div>
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue-500),var(--blue-700))"></div>
+    <div class="cp" style="padding:22px 24px">
+      <div class="plan-chip pro" style="margin-bottom:12px">Pro</div>
+      <div style="font-size:28px;font-weight:800;color:var(--tx);letter-spacing:-.5px;margin-bottom:2px">R$ 129<span style="font-size:16px;font-weight:500">,00</span></div>
+      <div style="font-size:12px;color:var(--tx-3);margin-bottom:20px">/mês</div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px">
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>800</b> leads captados/mês</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>60</b> prospecções/dia</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Agente SDR com IA ativo</span></div>
+        <div class="flex gap-8 items-center text-sm">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span><b>Número dedicado SDR</b> <span style="font-size:10px;background:rgba(99,102,241,0.12);color:var(--blue-500);padding:1px 6px;border-radius:99px;font-weight:600;margin-left:2px">NOVO</span></span>
+        </div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>50 SMS</b> + <b>5 ligações</b> bônus</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>SMS e ligações avulsas</span></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="confirmarPlano('Pro','R$ 129,00')">Assinar Pro</button>
+    </div>
+  </div>
+
+  <!-- Business -->
+  <div class="card" id="cardBusiness">
+    <div class="cp" style="padding:22px 24px">
+      <div class="plan-chip business" style="margin-bottom:12px">Business</div>
+      <div style="font-size:28px;font-weight:800;color:var(--tx);letter-spacing:-.5px;margin-bottom:2px">R$ 279<span style="font-size:16px;font-weight:500">,00</span></div>
+      <div style="font-size:12px;color:var(--tx-3);margin-bottom:20px">/mês</div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px">
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>2.000</b> leads captados/mês</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>120</b> prospecções/dia</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Agente SDR com IA ativo</span></div>
+        <div class="flex gap-8 items-center text-sm">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span><b>Número dedicado SDR</b> <span style="font-size:10px;background:rgba(99,102,241,0.12);color:var(--blue-500);padding:1px 6px;border-radius:99px;font-weight:600;margin-left:2px">NOVO</span></span>
+        </div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><b>200 SMS</b> + <b>30 ligações</b> bônus</span></div>
+        <div class="flex gap-8 items-center text-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Suporte prioritário</span></div>
+      </div>
+      <button class="btn btn-secondary btn-full" onclick="confirmarPlano('Business','R$ 279,00')">Assinar Business</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tabela comparativa -->
+<div class="card">
+  <div class="card-head"><div class="card-title">Comparativo detalhado</div></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th style="width:40%">Recurso</th>
+        <th>Start</th><th>Pro</th><th>Business</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="fw-500">Leads captados / mês</td><td>100</td><td>800</td><td>2.000</td></tr>
+        <tr><td class="fw-500">Prospecções / dia</td><td>30</td><td>60</td><td>120</td></tr>
+        <tr><td class="fw-500">Agente SDR (IA)</td>
+          <td><span class="badge b-red">Não</span></td>
+          <td><span class="badge b-green">Sim</span></td>
+          <td><span class="badge b-green">Sim</span></td>
+        </tr>
+        <tr><td class="fw-500">Número dedicado SDR</td>
+          <td><span class="badge b-red">Não</span></td>
+          <td><span class="badge b-green">Incluso</span></td>
+          <td><span class="badge b-green">Incluso</span></td>
+        </tr>
+        <tr><td class="fw-500">SMS bônus mensais</td><td>—</td><td>50</td><td>200</td></tr>
+        <tr><td class="fw-500">Ligações bônus mensais</td><td>—</td><td>5</td><td>30</td></tr>
+        <tr><td class="fw-500">SMS e ligações avulsos</td>
+          <td><span class="badge b-green">Sim</span></td>
+          <td><span class="badge b-green">Sim</span></td>
+          <td><span class="badge b-green">Sim</span></td>
+        </tr>
+        <tr><td class="fw-500">Delay entre envios</td><td>30-90s</td><td>20-60s</td><td>10-30s</td></tr>
+        <tr><td class="fw-500">Suporte</td><td>E-mail</td><td>Chat</td><td>Prioritário</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-foot">
+    <div class="text-xs tx-3">* SMS e ligações avulsos estão disponíveis em todos os planos. O cliente recarrega saldo e usa conforme a necessidade. Créditos liberados em até 2 horas.</div>
+  </div>
+</div>
+
+<!-- Modal Redirecionamento Pagamento -->
+<div class="overlay" id="modalPlano" onclick="if(event.target===this)fecharModalPlano()">
+  <div class="modal" style="max-width:400px;width:100%">
+    <div class="modal-head" style="border-bottom:1px solid var(--border);padding-bottom:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;background:var(--blue-50);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </div>
+        <div>
+          <h3 style="margin:0;font-size:15px;font-weight:600">Você está sendo redirecionado</h3>
+          <div style="font-size:11px;color:var(--text3)">Página de pagamento segura</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="fecharModalPlano()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="padding-top:18px">
+
+      <!-- Info do plano selecionado -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:3px">Plano selecionado</div>
+          <div style="font-weight:700;font-size:15px;color:var(--text)" id="modalPlanoNome">—</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:3px">Valor</div>
+          <div style="font-weight:700;font-size:15px;color:var(--blue-600)" id="modalPlanoValor">—</div>
+        </div>
+      </div>
+
+      <!-- Selos -->
+      <div style="display:flex;gap:8px;margin-bottom:18px">
+        <div style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:7px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span style="font-size:11px;font-weight:500;color:var(--text2)">Ambiente seguro</span>
+        </div>
+        <div style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:7px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span style="font-size:11px;font-weight:500;color:var(--text2)">SSL criptografado</span>
+        </div>
+        <div style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:7px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <span style="font-size:11px;font-weight:500;color:var(--text2)">PIX ou cartão</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" id="btnConfirmarPlano" style="height:44px;font-size:14px;font-weight:600;gap:8px;margin-bottom:12px" onclick="irParaPagamento()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Ir para pagamento
+      </button>
+
+      <button class="btn btn-secondary btn-full" onclick="fecharModalPlano()" style="height:38px;font-size:13px">Cancelar</button>
+
+      <div style="border-top:1px solid var(--border);padding-top:12px;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span style="font-size:11px;color:var(--text3)">Você será redirecionado para uma página de cobrança externa regulamentada pelo Banco Central</span>
+      </div>
+
+    </div>
+  </div>
+</div>

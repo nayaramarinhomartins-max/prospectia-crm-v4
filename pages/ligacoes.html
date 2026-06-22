@@ -1,0 +1,218 @@
+<div class="ph">
+  <div class="ph-row">
+    <div>
+      <h1>Ligações</h1>
+      <p>Dispare ligações automáticas com voz sintetizada para seus leads.</p>
+    </div>
+    <button class="btn btn-primary" onclick="document.getElementById('vozNumero').focus()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 5.93 5.93l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/></svg>
+      Nova ligação
+    </button>
+  </div>
+</div>
+
+<!-- Cards -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px">
+  <div class="stat-c c-yellow">
+    <div class="stat-label">Bônus ligações restantes</div>
+    <div class="stat-val" id="lVozBonus">—</div>
+    <div class="stat-sub">inclusas no plano</div>
+  </div>
+  <div class="stat-c c-blue">
+    <div class="stat-label">Saldo disponível</div>
+    <div class="stat-val" id="lSaldo" style="font-size:20px">—</div>
+    <div class="stat-sub">para ligações avulsas</div>
+  </div>
+  <div class="stat-c c-purple">
+    <div class="stat-label">Custo por ligação</div>
+    <div class="stat-val" style="font-size:20px">R$ 0,79</div>
+    <div class="stat-sub">até 60 segundos</div>
+  </div>
+  <div class="stat-c c-green">
+    <div class="stat-label">Duração máxima</div>
+    <div class="stat-val" style="font-size:20px">60s</div>
+    <div class="stat-sub">por ligação</div>
+  </div>
+</div>
+
+<div class="g2" style="gap:16px;align-items:stretch">
+
+  <!-- Disparo -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Fazer ligação</div>
+        <div class="card-subtitle">O bônus do plano é usado primeiro. Depois desconta do saldo.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="fg">
+        <label class="lbl">Número de destino</label>
+        <input type="text" class="inp" id="vozNumero" placeholder="Ex: 11999998888 (só números, com DDD)">
+      </div>
+      <div class="fg">
+        <label class="lbl">Mensagem da ligação</label>
+        <textarea class="inp" id="vozMensagem" rows="5"
+          placeholder="Ex: Olá! Aqui é da [Sua Empresa]. Estamos entrando em contato para apresentar uma solução especial para o seu negócio. Para saber mais, nos chame no WhatsApp!"
+          oninput="vozEstimarTempo()"></textarea>
+        <!-- Estimativa de tempo -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+          <span class="hint" style="margin:0">Estimativa de duração (máx 60s)</span>
+          <span class="hint" style="margin:0" id="vozTempoLabel">0s / 60s</span>
+        </div>
+        <div style="height:3px;background:var(--border);border-radius:99px;margin-top:6px;overflow:hidden">
+          <div id="vozTempoBar" style="height:100%;width:0%;background:var(--green);border-radius:99px;transition:width .1s,background .1s"></div>
+        </div>
+        <div class="hint" id="vozTempoAviso" style="margin-top:6px;color:var(--red);display:none">
+          ⚠️ Mensagem muito longa! Será cortada em 60 segundos.
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full btn-lg" onclick="dispararVoz()" id="btnDispararVoz">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 5.93 5.93l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/></svg>
+        Iniciar ligação
+      </button>
+    </div>
+  </div>
+
+  <!-- Config + calculadora -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- Mensagem padrão -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Mensagem padrão</div>
+          <div class="card-subtitle">Usada nos disparos automáticos do Agente SDR</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="fg">
+          <label class="lbl">Texto lido automaticamente nas ligações</label>
+          <textarea class="inp" id="msgLigacao" rows="4"
+            placeholder="Ex: Olá! Aqui é da [Sua Empresa]. Estamos entrando em contato para apresentar uma solução especial para o seu negócio. Para saber mais, nos chame no WhatsApp!"
+            oninput="vozEstimarTempoPadrao()"></textarea>
+          <div style="display:flex;justify-content:space-between;margin-top:4px">
+            <span class="hint" style="margin:0">Voz feminina sintetizada. Máximo 60 segundos.</span>
+            <span class="hint" style="margin:0" id="vozPadraoLabel">0s / 60s</span>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="salvarMsgLigacao()">Salvar mensagem padrão</button>
+      </div>
+    </div>
+
+    <!-- Como funciona -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">Como funciona</div></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div class="flex items-center gap-12" style="padding:11px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:8px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div><div class="fw-600 text-sm" style="color:var(--tx)">Bônus do plano</div><div class="text-xs tx-3">Usadas primeiro, gratuitas</div></div>
+            <span class="badge b-green fw-700" style="margin-left:auto" id="lBonusChip">0 lig.</span>
+          </div>
+          <div class="flex items-center gap-12" style="padding:11px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:8px;background:var(--blue-100);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <div><div class="fw-600 text-sm" style="color:var(--tx)">Saldo em reais</div><div class="text-xs tx-3">R$ 0,79 por ligação avulsa</div></div>
+            <span class="badge b-blue fw-700" style="margin-left:auto" id="lSaldoChip">R$ 0,00</span>
+          </div>
+          <div class="flex items-center gap-12" style="padding:11px 0">
+            <div style="width:28px;height:28px;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 5.93 5.93l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/></svg>
+            </div>
+            <div><div class="fw-600 text-sm" style="color:var(--tx)">Duração máxima</div><div class="text-xs tx-3">Ligação encerrada aos 60 segundos</div></div>
+            <span class="badge b-gray fw-700" style="margin-left:auto">60s</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calculadora -->
+    <div class="card">
+      <div class="card-head">
+        <div><div class="card-title">Calculadora</div><div class="card-subtitle">Simule o custo de um lote de ligações</div></div>
+      </div>
+      <div class="card-body">
+        <div class="fg">
+          <label class="lbl">Quantidade de ligações</label>
+          <input type="number" class="inp" id="calcVozQtd" value="10" min="1" oninput="calcCustoVoz()">
+        </div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px">
+          <div class="flex justify-between" style="margin-bottom:6px">
+            <span class="text-sm tx-3">Do bônus (grátis)</span>
+            <span class="fw-600 text-sm" style="color:var(--green)" id="calcVozBonus">0 lig.</span>
+          </div>
+          <div class="flex justify-between" style="margin-bottom:10px">
+            <span class="text-sm tx-3">Custo avulso</span>
+            <span class="fw-600 text-sm" style="color:var(--tx)" id="calcVozAvulso">R$ 0,00</span>
+          </div>
+          <div style="border-top:1px solid var(--border);padding-top:10px" class="flex justify-between">
+            <span class="text-sm tx-3 fw-600">Total estimado</span>
+            <span class="fw-800 text-lg" style="color:var(--blue-700)" id="calcVozResult">R$ 0,00</span>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="nav('carteira')">Recarregar saldo</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Disparo em Lote -->
+<div class="card" style="margin-top:16px">
+  <div class="card-head">
+    <div><div class="card-title">Disparo em lote</div><div class="card-subtitle">Ligue para múltiplos leads de uma vez</div></div>
+    <span class="badge b-blue" style="font-size:10px">Pro+</span>
+  </div>
+  <div class="card-body">
+    <div class="fg">
+      <label class="lbl">Origem dos números</label>
+      <div style="display:flex;gap:10px;margin-bottom:10px">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+          <input type="radio" name="vozBatchSrc" value="campanha" checked onchange="toggleVozBatchSrc('campanha')"> Campanha existente
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+          <input type="radio" name="vozBatchSrc" value="upload" onchange="toggleVozBatchSrc('upload')"> Planilha própria
+        </label>
+      </div>
+      <div id="vozBatchCampanha">
+        <select class="inp" id="vozBatchCamp"><option value="">Selecione uma campanha...</option></select>
+      </div>
+      <div id="vozBatchUpload" style="display:none">
+        <input type="file" class="inp" id="vozBatchFile" accept=".csv,.txt" style="padding:6px">
+        <div class="hint">CSV com coluna "telefone".</div>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="lbl">Mensagem da ligação</label>
+      <textarea class="inp" id="vozBatchMsg" rows="4" placeholder="Olá! Aqui é da [Sua Empresa]. Entramos em contato para..." oninput="vozBatchContarChars()"></textarea>
+      <div style="display:flex;justify-content:space-between;margin-top:4px">
+        <span class="hint" style="margin:0">Variáveis: {empresa}, {cidade}</span>
+        <span class="hint" style="margin:0" id="vozBatchContador">~0s</span>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="lbl">Tipo de voz</label>
+      <select class="inp" id="vozBatchTipo">
+        <option value="feminina">Feminina (Vitória)</option>
+        <option value="masculina">Masculina (Ricardo)</option>
+      </select>
+    </div>
+    <div class="alert alert-info" id="vozBatchPreview" style="display:none;margin-top:8px"></div>
+    <button class="btn btn-primary btn-full" onclick="dispararVozLote()" style="margin-top:12px">Confirmar disparos</button>
+  </div>
+</div>
+
+<!-- Histórico -->
+<div class="card" style="margin-top:16px">
+  <div class="card-head"><div class="card-title">Histórico de ligações</div></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Número</th><th>Data</th><th>Tipo</th></tr></thead>
+      <tbody id="vozHistorico"><tr><td colspan="3" style="text-align:center;padding:30px;color:var(--tx-3)">Carregando...</td></tr></tbody>
+    </table>
+  </div>
+</div>

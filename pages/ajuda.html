@@ -1,0 +1,38 @@
+<div class="ph">
+  <div class="ph-row">
+    <div><h1>Ajuda & Perguntas Frequentes</h1><p>Tudo que você precisa saber para usar o ProspectIA.</p></div>
+  </div>
+</div>
+
+<div class="g2" style="margin-bottom:20px">
+  <!-- Suporte direto -->
+  <div class="card">
+    <div class="card-body" style="display:flex;gap:14px;align-items:flex-start">
+      <div style="width:36px;height:36px;background:var(--blue-50);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" fill="none" stroke="var(--blue-600,#2563EB)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">Suporte direto</div>
+        <div style="font-size:13px;color:var(--tx-4);margin-bottom:10px">Ficou com dúvida? Nossa equipe responde rápido.</div>
+        <button class="btn btn-primary btn-sm" onclick="abrirSupportChat()">Falar com suporte</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modelo CSV -->
+  <div class="card">
+    <div class="card-body" style="display:flex;gap:14px;align-items:flex-start">
+      <div style="width:36px;height:36px;background:var(--green-bg,#f0fdf4);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" fill="none" stroke="var(--green,#10B981)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">Modelo de planilha CSV</div>
+        <div style="font-size:13px;color:var(--tx-4);margin-bottom:10px">Baixe o modelo para importar seus contatos.</div>
+        <button class="btn btn-secondary btn-sm" onclick="baixarModeloCSV()">Baixar modelo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ colapsável -->
+<div id="faqContainer"></div>

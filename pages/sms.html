@@ -1,0 +1,127 @@
+<div class="ph">
+  <div class="ph-row">
+    <div><h1>SMS</h1><p>Envie mensagens de texto direto para seus leads.</p></div>
+    <button class="btn btn-primary" onclick="document.getElementById('smsNumero').focus()">Novo disparo</button>
+  </div>
+</div>
+
+<!-- Stats -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px">
+  <div class="stat-c c-green"><div class="stat-label">Bônus SMS restantes</div><div class="stat-val" id="sSMSBonus">—</div><div class="stat-sub">inclusos no plano</div></div>
+  <div class="stat-c c-blue"><div class="stat-label">Saldo disponível</div><div class="stat-val" id="sSaldo" style="font-size:20px">—</div><div class="stat-sub">para SMS avulsos</div></div>
+  <div class="stat-c c-purple"><div class="stat-label">Custo por SMS</div><div class="stat-val" style="font-size:20px" id="sCustoSMS">—</div><div class="stat-sub">por envio avulso</div></div>
+  <div class="stat-c c-yellow"><div class="stat-label">Cobertura</div><div class="stat-val" style="font-size:16px;margin-top:6px">Nacional</div><div class="stat-sub">provedor oficial</div></div>
+</div>
+
+<div class="g2" style="gap:16px;align-items:stretch">
+
+  <!-- Disparo avulso -->
+  <div class="card">
+    <div class="card-head"><div><div class="card-title">Enviar SMS</div><div class="card-subtitle">Bônus usado primeiro. Depois desconta do saldo.</div></div></div>
+    <div class="card-body">
+      <div class="fg">
+        <label class="lbl">Número de destino</label>
+        <input type="text" class="inp" id="smsNumero" placeholder="11999998888 (com DDD, só números)">
+      </div>
+      <div class="fg">
+        <label class="lbl">Mensagem</label>
+        <textarea class="inp" id="smsMensagem" rows="4" placeholder="Ex: Olá! Temos uma oferta especial para você. Responda para saber mais!" oninput="smsContarChars()" maxlength="160"></textarea>
+        <div style="display:flex;justify-content:space-between;margin-top:4px">
+          <span class="hint" style="margin:0">Máximo 160 caracteres</span>
+          <span class="hint" style="margin:0" id="smsContador"><span id="smsCharsUsados">0</span>/160</span>
+        </div>
+      </div>
+      <div class="alert alert-info" id="smsCustoPreview" style="display:none;margin-top:8px"></div>
+      <button class="btn btn-primary btn-full" onclick="enviarSMSAvulso()" style="margin-top:12px">Enviar SMS</button>
+    </div>
+  </div>
+
+  <!-- Disparo em lote -->
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">Disparo em lote</div><div class="card-subtitle">Envie para múltiplos leads de uma vez</div></div>
+      <span class="badge b-blue" style="font-size:10px">Pro+</span>
+    </div>
+    <div class="card-body">
+      <!-- Origem dos números -->
+      <div class="fg">
+        <label class="lbl">Origem dos números</label>
+        <div style="display:flex;gap:10px;margin-bottom:10px">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+            <input type="radio" name="smsBatchSrc" value="campanha" id="smsSrcCamp" checked onchange="toggleSmsBatchSrc('campanha')">
+            Campanha existente
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+            <input type="radio" name="smsBatchSrc" value="upload" id="smsSrcUpload" onchange="toggleSmsBatchSrc('upload')">
+            Planilha própria
+          </label>
+        </div>
+        <div id="smsBatchCampanha">
+          <select class="inp" id="smsBatchCamp">
+            <option value="">Selecione uma campanha...</option>
+          </select>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <select class="inp" id="smsBatchFiltroStatus" style="flex:1"><option value="">Todos os status</option><option>Lead</option><option>Contato Feito</option><option>Interesse</option></select>
+            <select class="inp" id="smsBatchFiltroScore" style="flex:1"><option value="">Todos os scores</option><option value="hot">Quentes (70+)</option><option value="warm">Mornos (40-69)</option></select>
+          </div>
+        </div>
+        <div id="smsBatchUpload" style="display:none">
+          <input type="file" class="inp" id="smsBatchFile" accept=".csv,.txt" style="padding:6px">
+          <div class="hint">CSV com coluna "telefone". Baixe o modelo na aba Leads.</div>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="lbl">Mensagem do lote</label>
+        <textarea class="inp" id="smsBatchMsg" rows="3" placeholder="Olá {empresa}! Temos uma solução especial para {cidade}..." oninput="smsBatchContarChars()" maxlength="160"></textarea>
+        <div style="display:flex;justify-content:space-between;margin-top:4px">
+          <span class="hint" style="margin:0">Variáveis: {empresa}, {cidade}</span>
+          <span class="hint" style="margin:0" id="smsBatchContador">0/160</span>
+        </div>
+      </div>
+      <div class="alert alert-info" id="smsBatchPreview" style="display:none;margin-top:8px"></div>
+      <button class="btn btn-primary btn-full" onclick="dispararSMSLote()" style="margin-top:12px">Confirmar disparo</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Calculadora SMS -->
+<div class="card" style="margin-top:16px">
+  <div class="card-head">
+    <div><div class="card-title">Calculadora de custos</div><div class="card-subtitle">Simule o custo de um lote de SMS</div></div>
+  </div>
+  <div class="card-body">
+    <div class="g2" style="gap:12px">
+      <div class="fg" style="margin:0">
+        <label class="lbl">Quantidade de SMS</label>
+        <input type="number" class="inp" id="calcSmsQtd" value="50" min="1" oninput="calcCustoSMS()">
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px">
+        <div class="flex justify-between" style="margin-bottom:6px">
+          <span class="text-sm tx-3">Do bônus (grátis)</span>
+          <span class="fw-600 text-sm" style="color:var(--green)" id="calcSmsBonus">0 SMS</span>
+        </div>
+        <div class="flex justify-between" style="margin-bottom:10px">
+          <span class="text-sm tx-3">Custo avulso</span>
+          <span class="fw-600 text-sm" id="calcSmsCusto">R$ 0,00</span>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px" class="flex justify-between">
+          <span class="text-sm tx-3 fw-600">Total estimado</span>
+          <span class="fw-800 text-lg" style="color:var(--blue-700)" id="calcSmsTotal">R$ 0,00</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="nav('carteira')">Recarregar saldo</button>
+  </div>
+</div>
+
+<!-- Histórico -->
+<div class="card" style="margin-top:16px">
+  <div class="card-head"><div class="card-title">Histórico de SMS</div><div class="card-subtitle">Últimos 50 disparos</div></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Número</th><th>Mensagem</th><th>Data</th><th>Origem</th></tr></thead>
+      <tbody id="smsHistorico"><tr><td colspan="4" style="text-align:center;padding:30px;color:var(--tx-3)">Carregando...</td></tr></tbody>
+    </table>
+  </div>
+</div>

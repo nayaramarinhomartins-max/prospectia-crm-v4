@@ -1,0 +1,202 @@
+<div class="ph">
+  <div class="ph-row">
+    <div><h1>Captação de Leads</h1><p>Configure a captação automática de novos leads no Google Maps.</p></div>
+    <div class="flex items-center gap-12">
+      <button class="btn btn-ghost btn-sm" onclick="explicarCaptacao()" style="color:var(--tx-3);gap:5px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Como funciona?
+      </button>
+      <span style="font-size:12px;color:var(--tx-3)">Captação ativa</span>
+      <label class="toggle"><input type="checkbox" id="captAtivo" onchange="toggleCaptacao(this.checked)"><div class="tgl-track"></div><div class="tgl-thumb"></div></label>
+    </div>
+  </div>
+</div>
+
+<!-- Barra de limite -->
+<div class="card" style="margin-bottom:16px">
+  <div class="cp" style="padding:14px 20px">
+    <div class="flex justify-between items-center" style="margin-bottom:8px">
+      <span class="fw-600 text-sm tx-2">Leads captados este mês</span>
+      <span class="text-xs tx-3" id="captLimitInfo"></span>
+    </div>
+    <div id="captLimitBar"></div>
+  </div>
+</div>
+
+<div class="g2" style="gap:16px;align-items:start">
+  <div class="card">
+    <div class="card-head"><div class="card-title">Configuração da captação</div></div>
+    <div class="card-body">
+      <div class="fg">
+        <label class="lbl">Nicho / Categoria de negócio</label>
+        <input class="inp" id="captNicho" placeholder="Petshop, Salão de beleza, Restaurante...">
+        <div class="hint">O sistema buscará empresas deste tipo no Google Maps.</div>
+      </div>
+
+      <!-- Segmentação: DDD ou Cidade -->
+      <div class="fg">
+        <label class="lbl">Segmentação geográfica</label>
+        <div style="display:flex;gap:10px;margin-bottom:10px">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+            <input type="radio" name="segMode" value="ddd" id="segDDD" checked onchange="toggleSegMode('ddd')">
+            Por DDD
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px">
+            <input type="radio" name="segMode" value="cidade" id="segCidade" onchange="toggleSegMode('cidade')">
+            Por Cidade
+          </label>
+        </div>
+        <div id="campoSegDDD">
+          <input class="inp" id="captDDD" type="number" placeholder="Ex: 18" min="11" max="99">
+          <div class="hint">Buscará empresas em todas as cidades deste DDD.</div>
+        </div>
+        <div id="campoSegCidade" style="display:none">
+          <textarea class="inp" id="captCidades" rows="2" placeholder="Assis, Paraguaçu Paulista, Cândido Mota..."></textarea>
+          <div class="hint">Separe as cidades por vírgula.</div>
+        </div>
+      </div>
+
+      <div class="g2" style="gap:12px">
+        <div class="fg">
+          <label class="lbl">Início do disparo</label>
+          <select class="inp" id="captHoraInicio">
+            <option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option>
+            <option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option>
+            <option value="13">13:00</option><option value="14">14:00</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="lbl">Fim do disparo</label>
+          <select class="inp" id="captHoraFim">
+            <option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option>
+            <option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option>
+            <option value="22">22:00</option>
+          </select>
+        </div>
+      </div>
+      <div class="g2" style="gap:12px">
+        <div class="fg">
+          <label class="lbl">Delay mínimo entre envios (s)</label>
+          <input class="inp" id="captDelayMin" type="number" min="5" placeholder="30">
+        </div>
+        <div class="fg">
+          <label class="lbl">Delay máximo (s)</label>
+          <input class="inp" id="captDelayMax" type="number" min="10" placeholder="90">
+        </div>
+      </div>
+
+      <!-- Dias da semana -->
+      <div class="fg">
+        <label class="lbl">Dias de prospecção</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px" id="captDiasSemana">
+          <label class="dia-btn"><input type="checkbox" name="diasSemana" value="0"><span>Dom</span></label>
+          <label class="dia-btn"><input type="checkbox" name="diasSemana" value="1" checked><span>Seg</span></label>
+          <label class="dia-btn"><input type="checkbox" name="diasSemana" value="2" checked><span>Ter</span></label>
+          <label class="dia-btn"><input type="checkbox" name="diasSemana" value="3" checked><span>Qua</span></label>
+          <label class="dia-btn"><input type="checkbox" name="diasSemana" value="4" checked><span>Qui</span></label>
+          <label class="dia-btn"><input type="checkbox" name="diasSemana" value="5" checked><span>Sex</span></label>
+          <label class="dia-btn"><input type="checkbox" name="diasSemana" value="6"><span>Sáb</span></label>
+        </div>
+        <div class="hint">Selecione os dias em que o sistema enviará mensagens automaticamente.</div>
+      </div>
+
+      <button class="btn btn-primary btn-full" onclick="salvarCaptacao()" style="margin-top:8px">Salvar configurações</button>
+
+      <div style="border-top:1px solid var(--border);margin:20px 0 16px"></div>
+
+      <!-- Captar Agora -->
+      <div class="fg">
+        <label class="lbl">Cidade para esta busca</label>
+        <input class="inp" id="captCidadeAgora" placeholder="Ex: Assis SP, São Paulo SP...">
+        <div class="hint">Deixe vazio para usar a cidade/DDD já configurado acima.</div>
+      </div>
+      <div class="fg">
+        <label class="lbl">Limite de leads</label>
+        <input class="inp" type="number" id="captMaxLeads" value="60" min="5" max="500">
+      </div>
+
+      <!-- Painel de progresso -->
+      <div id="captProgressPanel" style="display:none;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span class="text-sm fw-600" id="captProgressLabel">Iniciando...</span>
+          <span class="text-xs tx-3" id="captProgressCount">0 leads</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:10px">
+          <div id="captProgressBar" style="height:100%;width:0%;background:var(--blue-400);border-radius:99px;transition:width .4s"></div>
+        </div>
+        <div id="captLogBox" style="background:var(--surface-2);border-radius:8px;padding:10px 12px;max-height:120px;overflow-y:auto;font-size:11px;color:var(--tx-3);font-family:monospace;line-height:1.7"></div>
+      </div>
+
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary btn-full" id="btnCaptar" onclick="iniciarCaptacao()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Captar Agora
+        </button>
+        <button class="btn btn-secondary" id="btnPararCapt" onclick="pararCaptacao()" style="display:none;min-width:90px">Parar</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <!-- Templates de mensagem -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Variações de mensagem</div>
+          <div class="card-subtitle">O sistema sorteia uma variação diferente para cada lead</div>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="alert alert-info" style="margin-bottom:12px;font-size:11px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>💡 <strong>Dica:</strong> Cadastre até 5 variações para parecer mais humano. Use {empresa}, {cidade}, {categoria} para personalizar. Mensagens curtas com pergunta no final têm até 3× mais resposta.</span>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Mensagem 1 <span style="color:var(--danger);font-size:11px">*obrigatória</span></label>
+          <textarea class="inp" id="captTemplate" rows="4" placeholder="Olá {empresa}! Tudo bem? 👋&#10;&#10;Vi que você tem um {categoria} em {cidade} e queria apresentar uma solução..."></textarea>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Mensagem 2 <span style="color:var(--tx-4);font-size:11px">opcional</span></label>
+          <textarea class="inp" id="captTemplate2" rows="4" placeholder="Oi! Encontrei o contato de vocês aqui em {cidade} 😊&#10;&#10;Vocês aceitam uma sugestão rápida para {categoria}?"></textarea>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Mensagem 3 <span style="color:var(--tx-4);font-size:11px">opcional</span></label>
+          <textarea class="inp" id="captTemplate3" rows="4" placeholder="Boa tarde! Vi que a {empresa} atua em {cidade} — posso te mandar uma informação rápida?"></textarea>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Mensagem 4 <span style="color:var(--tx-4);font-size:11px">opcional</span></label>
+          <textarea class="inp" id="captTemplate4" rows="4" placeholder="Olá {empresa}! Sou especialista em {categoria} e tenho algo que pode te interessar 🚀"></textarea>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Mensagem 5 <span style="color:var(--tx-4);font-size:11px">opcional</span></label>
+          <textarea class="inp" id="captTemplate5" rows="4" placeholder="Oi! Achei o contato de vocês pesquisando {categoria} em {cidade}. Posso te mostrar algo?"></textarea>
+        </div>
+
+        <button class="btn btn-secondary btn-full btn-sm" onclick="salvarTemplates()" style="margin-top:8px">Salvar mensagens</button>
+      </div>
+    </div>
+
+    <!-- Stats do dia -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">Atividade de hoje</div></div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="text-align:center;padding:12px;background:var(--surface-2);border-radius:var(--r)">
+            <div class="fw-800 text-xl" id="captHoje">—</div>
+            <div class="text-xs tx-4">captados hoje</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--surface-2);border-radius:var(--r)">
+            <div class="fw-800 text-xl" id="captProsp">—</div>
+            <div class="text-xs tx-4">prospecções hoje</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
